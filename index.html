@@ -1618,7 +1618,7 @@ function renderAllSettingsEditors(){
   renderCCEditor('editor-cc', mg['信用卡']||[]);
   renderBankEditor('editor-bank', mg['銀行存款']||[], '銀行存款');
   renderBankEditor('editor-ewallet', mg['電子錢包']||[], '電子錢包');
-  renderSimpleListEditor('editor-cash',   mg['現金']||[],     '現金',     v=>{ const mg=loadMG(); mg['現金']=v; saveMG(mg); });
+  renderBalanceListEditor('editor-cash',   mg['現金']||[],     '現金',     '期初');
   renderFloatCatsEditor();
   renderBudgetEditor();
   renderFixedEditor();
