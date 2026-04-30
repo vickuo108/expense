@@ -36,16 +36,6 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;font-family:
 .amount-wrap{position:relative}
 .amount-currency{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#9BA3AF;font-size:15px;pointer-events:none}
 .amount-wrap .form-control{padding-left:28px}
-.split-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.split-opt{padding:9px 6px;border:1.5px solid #E5E7EB;border-radius:10px;font-size:13px;cursor:pointer;background:#fff;text-align:center;transition:all .2s;line-height:1.3}
-.split-opt small{display:block;font-size:10px;color:#9BA3AF;margin-top:2px}
-.split-opt.active{border-width:2px}
-.split-opt[data-v="null"].active{background:#EEF2FF;border-color:#3B5BDB;color:#3B5BDB}
-.split-opt[data-v="1"].active{background:#FFFBEB;border-color:#F59F00;color:#B45309}
-.split-opt[data-v="0"].active{background:#FFF1F2;border-color:#F43F5E;color:#BE123C}
-.split-opt[data-v="repay"].active{background:#DCFCE7;border-color:#16A34A;color:#15803D}
-.share-preview{background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:10px 13px;font-size:13px;color:#1D4ED8;margin-top:8px;display:none}
-.share-preview.show{display:block}
 .btn-submit{width:100%;padding:14px;background:linear-gradient(135deg,#3B5BDB,#5C7CFA);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;margin-top:4px;box-shadow:0 4px 12px rgba(59,91,219,.35)}
 .btn-submit:active{transform:scale(.98)}
 .search-row{display:flex;gap:8px;margin-bottom:10px}
@@ -67,11 +57,6 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;font-family:
 .tx-meta{font-size:11px;color:#9BA3AF;margin-top:2px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 .tx-right{text-align:right;flex-shrink:0}
 .tx-amount-val{font-size:15px;font-weight:700}
-.tx-vic-share{font-size:10px;color:#9BA3AF;margin-top:2px}
-.badge{display:inline-flex;align-items:center;padding:1px 5px;border-radius:4px;font-size:9px;font-weight:700}
-.badge-gf{background:#FEE2E2;color:#DC2626}
-.badge-half{background:#FEF3C7;color:#D97706}
-.badge-repay{background:#DCFCE7;color:#16A34A}
 .clr-expense{color:#EF4444}
 .clr-income{color:#10B981}
 .clr-transfer{color:#3B82F6}
@@ -83,12 +68,6 @@ html,body{height:100%;height:-webkit-fill-available;overflow:hidden;font-family:
 .chart-card{background:#fff;border-radius:14px;padding:16px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
 .chart-title{font-size:14px;font-weight:700;margin-bottom:12px;color:#374151}
 .chart-wrap{position:relative;height:200px}
-.gf-summary{background:linear-gradient(135deg,#FFF1F2,#FFE4E6);border:1px solid #FECDD3;border-radius:14px;padding:14px;margin-bottom:10px}
-.gf-title{font-size:13px;color:#9F1239;font-weight:700;margin-bottom:8px}
-.gf-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #FECDD3;font-size:13px}
-.gf-row:last-child{border-bottom:none}
-.gf-key{color:#6B7280}
-.gf-val{font-weight:700;color:#DC2626}
 .month-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;background:#fff;border-radius:12px;padding:10px 14px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
 .month-nav-btn{background:none;border:1.5px solid #E5E7EB;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:16px;color:#374151}
 .month-label{font-size:16px;font-weight:800;color:#1A1A2E}
@@ -287,16 +266,6 @@ input[type=number]{-moz-appearance:textfield}
           <label class="form-label">備註</label>
           <input type="text" class="form-control" id="f-note" placeholder="選填">
         </div>
-        <div class="form-group">
-          <label class="form-label">女友分攤</label>
-          <div class="split-grid">
-            <button class="split-opt active" data-v="null">👤 我全部</button>
-            <button class="split-opt" data-v="1">👫 各一半</button>
-            <button class="split-opt" data-v="0">👩 全女友</button>
-            <button class="split-opt" data-v="repay">💸 女友已分攤</button>
-          </div>
-          <div class="share-preview" id="share-preview"></div>
-        </div>
         <button class="btn-submit" id="btn-add-submit">➕ 新增記帳</button>
       </div>
     </div>
@@ -312,15 +281,8 @@ input[type=number]{-moz-appearance:textfield}
           <select class="filter-select" id="filter-type"><option value="">全部分類</option></select>
           <select class="filter-select" id="filter-method"><option value="">全部方式</option></select>
         </div>
-        <div class="filter-row">
+        <div class="filter-row" style="grid-template-columns:1fr">
           <select class="filter-select" id="filter-main"><option value="">全部類別</option></select>
-          <select class="filter-select" id="filter-split">
-            <option value="">全部帳</option>
-            <option value="vic">Vic 全額</option>
-            <option value="half">各一半</option>
-            <option value="gf">全女友</option>
-            <option value="repay">女友已分攤</option>
-          </select>
         </div>
         <div class="filter-row">
           <input type="date" class="filter-select" id="filter-from" style="font-size:13px">
@@ -343,7 +305,7 @@ input[type=number]{-moz-appearance:textfield}
         <button class="stats-qnav-btn" onclick="statScrollTo('sec-float')">🛒 浮動支出</button>
         <button class="stats-qnav-btn" onclick="statScrollTo('sec-cc')">💳 信用卡</button>
         <button class="stats-qnav-btn" onclick="statScrollTo('sec-bank')">🏦 銀行</button>
-        <button class="stats-qnav-btn" onclick="statScrollTo('sec-gf')">👩‍❤️‍👨 女友</button>
+
         <button class="stats-qnav-btn" onclick="statScrollTo('fin-plan-section')">📈 財務規劃</button>
         <button class="stats-qnav-btn" onclick="statScrollTo('loan-section')">🏦 貸款</button>
         <button class="stats-qnav-btn" onclick="statScrollTo('sec-charts')">📊 圖表</button>
@@ -352,7 +314,6 @@ input[type=number]{-moz-appearance:textfield}
         <div class="stat-box">
           <div class="stat-box-label">本月支出</div>
           <div class="stat-box-val clr-expense" id="s-expense">$0</div>
-          <div class="stat-box-sub">Vic 實際 <span id="s-vic-expense">$0</span></div>
         </div>
         <div class="stat-box">
           <div class="stat-box-label">本月收入</div>
@@ -430,10 +391,6 @@ input[type=number]{-moz-appearance:textfield}
             <tbody id="bank-table-body"></tbody>
           </table>
         </div>
-      </div>
-      <div class="gf-summary" id="sec-gf">
-        <div class="gf-title">👩‍❤️‍👨 女友應還款項</div>
-        <div id="gf-rows"></div>
       </div>
       <div class="chart-card" id="fin-plan-section">
         <div class="chart-title">📈 財務規劃帳戶</div>
@@ -683,15 +640,6 @@ input[type=number]{-moz-appearance:textfield}
       <label class="form-label">備註</label>
       <input type="text" class="form-control" id="e-note">
     </div>
-    <div class="form-group">
-      <label class="form-label">女友分攤</label>
-      <div class="split-grid">
-        <button class="split-opt" data-v="null" onclick="editSelectSplit(this)">👤 我全部</button>
-        <button class="split-opt" data-v="1" onclick="editSelectSplit(this)">👫 各一半</button>
-        <button class="split-opt" data-v="0" onclick="editSelectSplit(this)">👩 全女友</button>
-        <button class="split-opt" data-v="repay" onclick="editSelectSplit(this)">💸 女友已分攤</button>
-      </div>
-    </div>
     <div class="modal-actions">
       <button class="btn btn-danger" id="btn-delete">🗑 刪除</button>
       <button class="btn btn-primary" id="btn-save">💾 儲存</button>
@@ -843,24 +791,8 @@ function saveBudgetAmt(cat,val){ const b=loadBudgets(); const n=parseFloat(val);
 
 function genId(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
 
-// ─── GF helpers ────────────────────────────────────────────────────────────
-function vicShare(amount, split){
-  if(split==='repay') return amount;
-  if(split===0) return 0;
-  if(split===1) return amount/2;
-  return amount;
-}
-function gfOwes(amount, split){
-  if(split===0) return Math.abs(amount);
-  if(split===1) return Math.abs(amount)/2;
-  return 0;
-}
-function gfRepaid(amount, split){
-  return split==='repay'?Math.abs(amount):0;
-}
-
 // ─── State ─────────────────────────────────────────────────────────────────
-let addSplit=null, editSplit=null, currentEditId=null;
+let currentEditId=null;
 let statYear=new Date().getFullYear(), statMonth=new Date().getMonth()+1;
 let fixedChart=null, floatPieChart=null, finChart=null, ccBarChart=null;
 
@@ -1014,16 +946,7 @@ function initFormListeners(){
   });
 
   lpEl.addEventListener('input',calcLoanInterest.bind(null,'f'));
-  amtEl.addEventListener('input',()=>{ calcLoanInterest('f'); updateSharePreview(); });
-
-  document.querySelectorAll('#panel-add .split-opt').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      document.querySelectorAll('#panel-add .split-opt').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      addSplit=btn.dataset.v==='null'?null:btn.dataset.v==='repay'?'repay':Number(btn.dataset.v);
-      updateSharePreview();
-    });
-  });
+  amtEl.addEventListener('input',()=>{ calcLoanInterest('f'); });
 
   document.getElementById('f-type').addEventListener('change', autoFillAmtSign);
   document.getElementById('btn-add-submit').addEventListener('click', submitAdd);
@@ -1044,23 +967,6 @@ function calcLoanInterest(prefix){
   document.getElementById(`${prefix}-loan-i`).value=i!==null?fmtInput(i):'';
 }
 
-function updateSharePreview(){
-  const amt=parseAmt(document.getElementById('f-amount').value);
-  const prev=document.getElementById('share-preview');
-  if(addSplit===null||amt===0){ prev.classList.remove('show'); return; }
-  prev.classList.add('show');
-  if(addSplit==='repay'){
-    prev.style.cssText='background:#F0FDF4;border-color:#BBF7D0;color:#15803D';
-    prev.textContent=`女友已分攤 ${fmt(Math.abs(amt))}，從累計欠款中扣除`;
-  } else {
-    prev.style.cssText='';
-    const vic=vicShare(amt,addSplit), gf=gfOwes(amt,addSplit);
-    prev.textContent=addSplit===1
-      ?`Vic 實際支出：${fmt(Math.abs(vic))}　女友應還：${fmt(gf)}`
-      :`Vic 實際支出：$0　女友應還全額：${fmt(gf)}`;
-  }
-}
-
 function submitAdd(){
   const date=document.getElementById('f-date').value;
   const amount=parseAmt(document.getElementById('f-amount').value);
@@ -1072,7 +978,7 @@ function submitAdd(){
     method:document.getElementById('f-method').value,
     main:document.getElementById('f-main').value,
     sub:document.getElementById('f-sub').value,
-    amount, note:document.getElementById('f-note').value.trim(), split:addSplit,
+    amount, note:document.getElementById('f-note').value.trim(),
   };
   const main=document.getElementById('f-main').value;
   if(main==='貸款'){
@@ -1096,15 +1002,11 @@ function resetAddForm(){
   document.getElementById('f-loan-extra').style.display='none';
   document.getElementById('f-loan-p').value='';
   document.getElementById('f-loan-i').value='';
-  addSplit=null;
-  document.querySelectorAll('#panel-add .split-opt').forEach(b=>b.classList.remove('active'));
-  document.querySelector('#panel-add .split-opt[data-v="null"]').classList.add('active');
-  document.getElementById('share-preview').classList.remove('show');
 }
 
 // ─── Records ───────────────────────────────────────────────────────────────
 function initSearchListeners(){
-  ['search-input','filter-type','filter-method','filter-main','filter-split','filter-from','filter-to']
+  ['search-input','filter-type','filter-method','filter-main','filter-from','filter-to']
     .forEach(id=>document.getElementById(id).addEventListener(id==='search-input'?'input':'change',renderRecords));
   document.getElementById('filter-toggle').addEventListener('click',()=>{
     const fc=document.getElementById('filter-card'), btn=document.getElementById('filter-toggle');
@@ -1118,7 +1020,6 @@ function applyFilters(data){
   const ft=document.getElementById('filter-type').value;
   const fm=document.getElementById('filter-method').value;
   const fmain=document.getElementById('filter-main').value;
-  const fsplit=document.getElementById('filter-split').value;
   const ffrom=document.getElementById('filter-from').value;
   const fto=document.getElementById('filter-to').value;
   return data.filter(r=>{
@@ -1128,10 +1029,6 @@ function applyFilters(data){
     if(fmain&&r.main!==fmain) return false;
     if(ffrom&&r.date<ffrom) return false;
     if(fto&&r.date>fto) return false;
-    if(fsplit==='vic'&&r.split!==null) return false;
-    if(fsplit==='half'&&r.split!==1) return false;
-    if(fsplit==='gf'&&r.split!==0) return false;
-    if(fsplit==='repay'&&r.split!=='repay') return false;
     return true;
   });
 }
@@ -1154,21 +1051,15 @@ function txItemHTML(r){
   const ic=catIcon(r.main||r.type), bg=catBg(r.main||r.type);
   const amtCls=r.amount<0?'clr-expense':r.amount>0?'clr-income':'clr-transfer';
   const amtStr=(r.amount>0?'+':'')+fmt(Math.abs(r.amount));
-  const vc=vicShare(r.amount,r.split);
-  const vicStr=r.split!==null&&r.split!=='repay'?`Vic: ${vc>0?'+':''}${fmt(Math.abs(vc))}`:'';
-  const badge=r.split===0?'<span class="badge badge-gf">全女友</span>'
-    :r.split===1?'<span class="badge badge-half">各半</span>'
-    :r.split==='repay'?'<span class="badge badge-repay">GF還款</span>':'';
   const sub=[r.method,r.sub||r.main,r.note].filter(Boolean).join(' · ');
   return `<div class="tx-item" onclick="openEdit('${r.id}')">
     <div class="tx-icon-wrap ${bg}">${ic}</div>
     <div class="tx-body">
-      <div class="tx-main">${r.main||r.type}${r.sub?' · '+r.sub:''} ${badge}</div>
+      <div class="tx-main">${r.main||r.type}${r.sub?' · '+r.sub:''}</div>
       <div class="tx-meta">${sub}</div>
     </div>
     <div class="tx-right">
       <div class="tx-amount-val ${amtCls}">${amtStr}</div>
-      ${vicStr?`<div class="tx-vic-share">${vicStr}</div>`:''}
     </div>
   </div>`;
 }
@@ -1209,16 +1100,7 @@ function openEdit(id){
   loanExtra.style.display=r.main==='貸款'?'block':'none';
   document.getElementById('e-loan-p').value=r.loanPrincipal?fmtInput(r.loanPrincipal):'';
   document.getElementById('e-loan-i').value=r.loanInterest?fmtInput(r.loanInterest):'';
-  editSplit=r.split;
-  const sv=r.split===null?'null':r.split==='repay'?'repay':String(r.split);
-  document.querySelectorAll('#edit-overlay .split-opt').forEach(b=>b.classList.toggle('active',b.dataset.v===sv));
   document.getElementById('edit-overlay').classList.add('open');
-}
-
-function editSelectSplit(btn){
-  document.querySelectorAll('#edit-overlay .split-opt').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  editSplit=btn.dataset.v==='null'?null:btn.dataset.v==='repay'?'repay':Number(btn.dataset.v);
 }
 
 function closeModal(){ document.getElementById('edit-overlay').classList.remove('open'); currentEditId=null; }
@@ -1234,7 +1116,7 @@ function saveEdit(){
     method:document.getElementById('e-method').value,
     main, sub:document.getElementById('e-sub').value,
     amount:parseAmt(document.getElementById('e-amount').value)||data[idx].amount,
-    note:document.getElementById('e-note').value.trim(), split:editSplit,
+    note:document.getElementById('e-note').value.trim(),
   };
   if(main==='貸款'){
     const p=parseFloat(document.getElementById('e-loan-p').value);
@@ -1459,10 +1341,8 @@ function renderStats(){
   const inc=md.filter(r=>r.amount>0&&r.type==='收入');
   const totalExp=exp.reduce((s,r)=>s+r.amount,0);
   const totalInc=inc.reduce((s,r)=>s+r.amount,0);
-  const vicExp=exp.reduce((s,r)=>s+vicShare(r.amount,r.split),0);
   document.getElementById('s-expense').textContent=fmt(Math.abs(totalExp));
   document.getElementById('s-income').textContent='+'+fmt(totalInc);
-  document.getElementById('s-vic-expense').textContent=fmt(Math.abs(vicExp));
   const bal=totalInc+totalExp;
   const balEl=document.getElementById('s-balance');
   balEl.textContent=(bal>=0?'+':'')+fmt(bal);
@@ -1508,7 +1388,6 @@ function renderStats(){
   renderCCSection(data, prefix);
   renderBankSection(data, prefix);
   renderFinPlanSection(data, prefix);
-  renderGFSummary(data, prefix);
   renderLoanTable(data, prefix);
   renderFixedChart(md);
   renderFloatPieChart(md);
@@ -1573,18 +1452,6 @@ function renderBankSection(data, prefix){
   }).join('');
   const total=`<tr class="total-row"><td>銀行區合計</td><td>${tPull?`<span class="clr-expense">${fmt(tPull)}</span>`:'-'}</td><td>${tPush?`<span class="clr-income">+${fmt(tPush)}</span>`:'-'}</td><td>${nc(tOther)}</td><td>${fmt(tBal)}</td><td>${fmt(tAvail)}</td></tr>`;
   document.getElementById('bank-table-body').innerHTML=rows+total;
-}
-
-function renderGFSummary(data, prefix){
-  const mo=data.filter(r=>r.date.startsWith(prefix)&&(r.split===0||r.split===1)&&r.amount<0).reduce((s,r)=>s+gfOwes(r.amount,r.split),0);
-  const mr=data.filter(r=>r.date.startsWith(prefix)&&r.split==='repay').reduce((s,r)=>s+gfRepaid(r.amount,r.split),0);
-  const ao=data.filter(r=>(r.split===0||r.split===1)&&r.amount<0).reduce((s,r)=>s+gfOwes(r.amount,r.split),0);
-  const ar=data.filter(r=>r.split==='repay').reduce((s,r)=>s+gfRepaid(r.amount,r.split),0);
-  document.getElementById('gf-rows').innerHTML=`
-    <div class="gf-row"><span class="gf-key">本月應還</span><span class="gf-val">$${fmt(mo)}</span></div>
-    <div class="gf-row"><span class="gf-key">本月已還</span><span class="gf-val" style="color:#16A34A">-$${fmt(mr)}</span></div>
-    <div class="gf-row"><span class="gf-key">累計已還（全部）</span><span class="gf-val" style="color:#16A34A">-$${fmt(ar)}</span></div>
-    <div class="gf-row"><span class="gf-key">累計淨欠（全部）</span><span class="gf-val">$${fmt(ao-ar)}</span></div>`;
 }
 
 function renderLoanTable(data, prefix){
@@ -2118,7 +1985,6 @@ function initBackToTopBtns(){
     el.appendChild(btn);
   };
   document.querySelectorAll('#panel-stats .chart-title').forEach(addBtn);
-  addBtn(document.querySelector('#panel-stats .gf-title'));
   document.querySelectorAll('#panel-settings .settings-section-title').forEach(addBtn);
 }
 function scrollToSection(id){
